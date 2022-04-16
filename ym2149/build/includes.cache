@@ -1,0 +1,42 @@
+[
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "/home/wangjq/下载/arduino-1.8.19/hardware/arduino/avr/cores/arduino"
+  },
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "/home/wangjq/下载/arduino-1.8.19/hardware/arduino/avr/variants/eightanaloginputs"
+  },
+  {
+    "Sourcefile": "/home/wangjq/文档/ym2149/build/sketch/ym2149.ino.cpp",
+    "Include": "Wire.h",
+    "Includepath": "/home/wangjq/下载/arduino-1.8.19/hardware/arduino/avr/libraries/Wire/src"
+  },
+  {
+    "Sourcefile": "/home/wangjq/文档/ym2149/build/sketch/ym2149.ino.cpp",
+    "Include": "LiquidCrystal_I2C.h",
+    "Includepath": "/home/wangjq/Arduino/libraries/LiquidCrystal_I2C-1.1.2"
+  },
+  {
+    "Sourcefile": "/home/wangjq/文档/ym2149/build/sketch/ym2149.ino.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/wangjq/下载/arduino-1.8.19/hardware/arduino/avr/libraries/Wire/src/Wire.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/wangjq/下载/arduino-1.8.19/hardware/arduino/avr/libraries/Wire/src/utility/twi.c",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/wangjq/Arduino/libraries/LiquidCrystal_I2C-1.1.2/LiquidCrystal_I2C.cpp",
+    "Include": "",
+    "Includepath": null
+  }
+]
