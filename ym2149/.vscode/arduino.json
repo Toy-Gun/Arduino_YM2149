@@ -1,8 +1,8 @@
 {
-    "port": "/dev/ttyUSB0",
-    "board": "arduino:avr:nano",
-    "output": "./build",
-    "sketch": "ym2149.ino",
     "configuration": "cpu=atmega328old",
-    "programmer": "arduino:avrisp"
+    "board": "arduino:avr:nano",
+    "programmer": "avrispmkii",
+    "port": "COM5",
+    "sketch": "YM2149.ino",
+    "output": "./build"
 }

@@ -1,8 +1,0 @@
-{
-    "port": "/dev/ttyUSB0",
-    "board": "arduino:avr:nano",
-    "output": "./build",
-    "sketch": "ymplayer.ino",
-    "configuration": "cpu=atmega328old",
-    "programmer": "arduino:avrisp"
-}

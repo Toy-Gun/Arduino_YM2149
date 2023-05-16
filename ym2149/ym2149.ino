@@ -1,71 +1,88 @@
-#include "ym2149.h"
-#include <Wire.h>
-#include <LiquidCrystal_I2C.h>
+#include "YM2149.h"
 
-// Notes
-// Np = 2e6 / (16 * Fn)
-// 24 - 120 C2 - C10
-LiquidCrystal_I2C lcd(0x27, 16, 2); //配置LCD地址及行列
+byte incomingByte;
+byte note;
+int noteDown = LOW;
+int state = 0;
+int channel = 0;
 
-unsigned int i;
+YM2149Class Ym;
 
 void setup()
 {
-  lcd.init();      //初始化LCD
-  lcd.backlight(); //打开背光
-  Serial.begin(115200);
+    Serial.begin(115200);
 
-  ym_set_bus_ctl();
+    Ym.begin();
+    Ym.setPortIO(1, 1);
 
-  // reset registers
-  for (i = 0; i < 16; i++)
-  {
-    ym_send_data_1(i, 0);
-    ym_send_data_2(i, 0);
-    led_flash(i % 8, false);
-  }
+    Ym.setPin(0, 1);
+    delay(100);
+    Ym.setPin(0, 0);
+    delay(100);
 
-  // ym_send_data(7, 0xf8); // Only output clear sound
-  ym_send_data_1(7, 0xf8);
-  ym_send_data_1(8, 0x0f);
-  ym_send_data_1(9, 0x0f);
-  ym_send_data_1(10, 0x0f);
-
-  ym_send_data_2(7, 0xf8);
-  ym_send_data_2(8, 0x0f);
-  ym_send_data_2(9, 0x0f);
-  ym_send_data_2(10, 0x0f);
-
-  pinMode(13, HIGH);
-  lcd.setCursor(0, 0);     //设置显示位置
-  lcd.print("PLAYING..."); //显示字符数据
+    Ym.mute();
 }
-int f = 0, c, trk, n, on;
+
 void loop()
 {
-  if (Serial.available())
-  {
-    c = Serial.read();
-    Serial.print(c);
-    if (c == '~')
+    if (Serial.available() > 0)
     {
-      trk = Serial.read();
-      Serial.print(trk);
+        incomingByte = Serial.read();
+        switch (state)
+        {
+        case 0:
+            if ((incomingByte & 0xF0) == 0x90)
+            {
+                noteDown = HIGH;
+                state = 1;
+                channel = incomingByte & 0xF;
+            }
+            if ((incomingByte & 0xF0) == 0x80)
+            {
+                noteDown = LOW;
+                state = 1;
+                channel = incomingByte & 0xF;
+            }
+            break;
 
-      n = Serial.read();
-      Serial.print(n);
+        case 1:
+            if (incomingByte < 128)
+            {
+                note = incomingByte;
+                state = 2;
+            }
+            else
+            {
+                state = 0;
+            }
+            break;
 
-      on = Serial.read();
-      Serial.print(on);
-
-      if (trk < 3)
-      {
-        pinano_1(Np[n % 127], trk, on % 2);
-      }
-      else
-      {
-        pinano_2(Np[n % 127], trk % 3, on % 2);
-      }
+        case 2:
+            if (incomingByte < 128) 
+            {
+                playNote(channel, noteDown, note, incomingByte);
+            } 
+            state = 0;
+            break;
+        }
     }
-  }
+}
+
+void playNote(byte channel, byte down, byte note, byte velocity)
+{
+    Ym.setNote(channel, note);
+
+    if(velocity == 0)
+        down = LOW;
+
+    if(down == HIGH)
+    {
+        Ym.setPin(0, 1);
+        Ym.setVolume(channel, 15);
+    }
+    else
+    {
+        Ym.setPin(0, 0);
+        Ym.setVolume(channel, 0);
+    }
 }
