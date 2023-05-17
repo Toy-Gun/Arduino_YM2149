@@ -1,0 +1,8 @@
+{
+    "configuration": "cpu=atmega328old",
+    "board": "arduino:avr:nano",
+    "programmer": "avrispmkii",
+    "port": "COM5",
+    "sketch": "YM2149.ino"
+    
+}
