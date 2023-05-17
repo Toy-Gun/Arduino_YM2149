@@ -58,10 +58,10 @@ void loop()
             break;
 
         case 2:
-            if (incomingByte < 128) 
+            if (incomingByte < 128)
             {
                 playNote(channel, noteDown, note, incomingByte);
-            } 
+            }
             state = 0;
             break;
         }
@@ -72,13 +72,14 @@ void playNote(byte channel, byte down, byte note, byte velocity)
 {
     Ym.setNote(channel, note);
 
-    if(velocity == 0)
+    if (velocity == 0)
         down = LOW;
 
-    if(down == HIGH)
+    if (down == HIGH)
     {
         Ym.setPin(0, 1);
-        Ym.setVolume(channel, 15);
+        Ym.setVolume(channel, (byte)(15 * ((float)velocity / 127.0f)));
+        // Ym.setNoise(channel, 1);
     }
     else
     {

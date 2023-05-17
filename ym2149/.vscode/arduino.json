@@ -3,6 +3,6 @@
     "board": "arduino:avr:nano",
     "programmer": "avrispmkii",
     "port": "COM5",
-    "sketch": "YM2149.ino",
-    "output": "./build"
+    "sketch": "YM2149.ino"
+    
 }
