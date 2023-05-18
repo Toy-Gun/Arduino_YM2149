@@ -188,3 +188,35 @@ void YM2149Class::mute()
     levelValue[2] = 0;
     mixerValue = 0b11111000;
 }
+
+/*
+    0,0,0,0 : \_______
+    0,1,0,0 : /_______
+    1,0,0,0 : \\\\\\\\
+    1,0,0,1 : \_______
+    1,0,1,0 : \/\/\/\/
+    1,0,1,1 : \```````
+    1,1,0,0 : ////////
+    1,1,0,1 : /```````
+    1,1,1,0 : /\/\/\/\
+    1,1,1,1 : /_______
+*/
+void YM2149Class::setEnvShape(uint8_t continuous, uint8_t attack, uint8_t alt, uint8_t hold)
+{
+    continuous &= 0b00000001;
+    attack &= 0b00000001;
+    alt &= 0b00000001;
+    hold &= 0b00000001;
+    write(REG_ENV_SHAPE, (continuous << 3) | (attack << 2) | (alt << 1) | (hold));
+}
+
+void YM2149Class::setFreq(uint8_t voice, uint32_t freq)
+{
+    uint16_t d = 16;
+    if (voice == 4)
+    {
+        d = 256;
+    }
+    uint16_t f = (uint16_t)((2000000.0f / freq) / d);
+    setTone(voice, f);
+}

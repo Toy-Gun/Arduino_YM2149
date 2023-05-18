@@ -17,6 +17,8 @@ class YM2149Class
         void setVolume(uint8_t synth, uint8_t value);
         void setNoise(uint8_t synth, uint8_t value);
         void setEnv(uint8_t synth, uint8_t value);
+        void setEnvShape(uint8_t continuous, uint8_t attack, uint8_t alt, uint8_t hold);
+        void setFreq(uint8_t voice, uint32_t freq);
         void mute();
 
     private:
